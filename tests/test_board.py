@@ -12,45 +12,30 @@ def test_board_has_8_files_and_8_ranks():
         assert len(rank) == 8
 
 
-def test_board_initializes_with_correct_piece_counts():
+def test_board_initializes_with_correct_colors_and_locations():
     board = Board()
-
-    piece_count_dict = {
-        Pawn: 16,
-        Bishop: 4,
-        Knight: 4,
-        Rook: 4,
-        Queen: 2,
-        King: 2
+    piece_location_dict = {
+        'black': {Pawn: [(0, 6), (1, 6), (2, 6), (3, 6),
+                         (4, 6), (5, 6), (6, 6), (7, 6)],
+                  Bishop: [(7, 3), (7, 5)],
+                  Knight: [(7, 2), (7, 6)],
+                  Rook: [(0, 7), (7, 7)],
+                  Queen: [(7, 3)],
+                  King: [(7, 4)]},
+        'white': {Pawn: [(0, 1), (1, 1), (2, 1), (3, 1),
+                         (4, 1), (5, 1), (6, 1), (7, 1), ],
+                  Bishop: [(0, 3), (0, 5)],
+                  Knight: [(0, 2), (0, 6)],
+                  Rook: [(0, 0), (7, 0)],
+                  Queen: [(0, 3)],
+                  King: [(0, 4)]}
     }
 
-    for piece_type, count in piece_count_dict.items():
-        assert len(
-            [piece for piece in board.pieces if
-             isinstance(piece, piece_type)]) == count
-
-
-def test_board_initializes_with_correct_piece_counts_for_each_color():
-    board = Board()
-
-    piece_count_dict = {
-        Pawn: 8,
-        Bishop: 2,
-        Knight: 2,
-        Rook: 2,
-        Queen: 1,
-        King: 1
-    }
-
-    for color in ['black', 'white']:
-        for piece_type, count in piece_count_dict.items():
-            assert len(
-                [piece for piece in board.pieces if
-                 isinstance(piece, piece_type)
-                 and piece.color == color]) == count
-
-
-# def test_board_initializes_with_all_pieces_in_correct_locations():
-#     piece_location_dict = {
-
-#     }
+    for color, piece_locations in piece_location_dict.items():
+        for piece_type, locations in piece_locations.items():
+            color_piece_locations = [
+                piece.location for piece in
+                board.pieces if isinstance(piece, piece_type)
+            ]
+            for location in locations:
+                assert location in color_piece_locations
