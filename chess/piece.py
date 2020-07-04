@@ -16,8 +16,13 @@ class Piece():
     def get_rank(self):
         return self.location[1]
 
+    def __str__(self):
+        return self.str_representation
+
 
 class Pawn(Piece):
+
+    str_representation = "P"
 
     def __init__(self, location, color):
         super().__init__(location, color)
@@ -26,12 +31,16 @@ class Pawn(Piece):
 
 class Bishop(Piece):
 
+    str_representation = "B"
+
     def __init__(self, location, color):
         super().__init__(location, color)
         self.point_value = 3
 
 
 class Knight(Piece):
+
+    str_representation = "N"
 
     def __init__(self, location, color):
         super().__init__(location, color)
@@ -40,6 +49,8 @@ class Knight(Piece):
 
 class Rook(Piece):
 
+    str_representation = "R"
+
     def __init__(self, location, color):
         super().__init__(location, color)
         self.point_value = 5
@@ -47,12 +58,16 @@ class Rook(Piece):
 
 class Queen(Piece):
 
+    str_representation = "Q"
+
     def __init__(self, location, color):
         super().__init__(location, color)
         self.point_value = 9
 
 
 class King(Piece):
+
+    str_representation = "K"
 
     def __init__(self, location, color):
         super().__init__(location, color)
