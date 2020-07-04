@@ -1,7 +1,8 @@
 import pytest
 from random import randrange
 from chess.piece import (
-    Piece, Pawn, Rook)
+    Piece, Pawn, Bishop, Knight,
+    Rook, Queen, King)
 
 
 def test_new_piece_starts_alive():
@@ -27,13 +28,15 @@ def test_get_rank_returns_correct_value():
     assert test_piece.get_rank() == location[1]
 
 
-def test_pawn_has_point_value_of_1():
+def test_piece_types_have_correct_point_values():
+    piece_values_dict = {
+        Pawn: 1,
+        Bishop: 3,
+        Knight: 3,
+        Rook: 5,
+        Queen: 9,
+        King: -1
+    }
     location = (randrange(8), randrange(8))
-    test_pawn = Pawn(location)
-    assert test_pawn.point_value == 1
-
-
-def test_rook_has_point_value_of_5():
-    location = (randrange(8), randrange(8))
-    test_rook = Rook(location)
-    assert test_rook.point_value == 5
+    for piece, value in piece_values_dict.items():
+        assert piece(location).point_value == value

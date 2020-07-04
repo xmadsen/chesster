@@ -23,8 +23,36 @@ class Pawn(Piece):
         self.point_value = 1
 
 
+class Bishop(Piece):
+
+    def __init__(self, location):
+        super().__init__(location)
+        self.point_value = 3
+
+
+class Knight(Piece):
+
+    def __init__(self, location):
+        super().__init__(location)
+        self.point_value = 3
+
+
 class Rook(Piece):
 
     def __init__(self, location):
         super().__init__(location)
         self.point_value = 5
+
+
+class Queen(Piece):
+
+    def __init__(self, location):
+        super().__init__(location)
+        self.point_value = 9
+
+
+class King(Piece):
+
+    def __init__(self, location):
+        super().__init__(location)
+        self.point_value = -1
