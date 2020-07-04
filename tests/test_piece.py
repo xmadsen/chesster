@@ -1,6 +1,7 @@
 import pytest
 from random import randrange
-from chess.piece import Piece, Pawn
+from chess.piece import (
+    Piece, Pawn, Rook)
 
 
 def test_new_piece_starts_alive():
@@ -30,3 +31,9 @@ def test_pawn_has_point_value_of_1():
     location = (randrange(8), randrange(8))
     test_pawn = Pawn(location)
     assert test_pawn.point_value == 1
+
+
+def test_rook_has_point_value_of_5():
+    location = (randrange(8), randrange(8))
+    test_rook = Rook(location)
+    assert test_rook.point_value == 5

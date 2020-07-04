@@ -21,3 +21,10 @@ class Pawn(Piece):
     def __init__(self, location):
         super().__init__(location)
         self.point_value = 1
+
+
+class Rook(Piece):
+
+    def __init__(self, location):
+        super().__init__(location)
+        self.point_value = 5
