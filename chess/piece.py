@@ -8,7 +8,7 @@ class Piece():
         self.is_alive = True
         self.location = location
         self.color = color
-        pass
+        self.image = self.color.lower() + "_" + type(self).__name__.lower() + ".png"
 
     def get_file(self):
         return self.location[0]

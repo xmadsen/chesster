@@ -1,6 +1,7 @@
 import tkinter as tk
 from constants import UiConstants as const
 from board import Board
+from PIL import Image, ImageTk
 
 
 def _from_rgb(rgb):
@@ -21,46 +22,65 @@ class UserInterface():
         self.window.configure(bg='grey29')
         self.window.geometry("{}x{}".format(
             const.windowSize, const.windowSize))
-        label = tk.Label(
-            self.window, text="This is Chesster, the Chess app")
 
-        self.add_board()
-        self.add_squares()
+        self.draw_board()
+        self.draw_squares()
+        self.draw_pieces()
 
         self.window.mainloop()
 
-    def add_board(self):
+    def draw_board(self):
         self.ui_board = UiBoard()
-        board_frame = tk.Frame(
+        self.board_canvas = tk.Canvas(
             self.window,
             bg=self.ui_board.bg_color,
             height=self.ui_board.size,
-            width=self.ui_board.size
+            width=self.ui_board.size,
+            highlightthickness=0
         )
-        board_frame.place(
+        self.board_canvas.place(
             x=const.windowSize * (1 - const.BOARD_PERCENT_OF_WINDOW) / 2,
             y=const.windowSize * (1 - const.BOARD_PERCENT_OF_WINDOW) / 2
         )
 
-    def add_squares(self):
-        squares = (UiBlackSquare, UiWhiteSquare)
-
-        board_frame = self.window.winfo_children()[1]
+    def draw_squares(self):
+        squares = (UiWhiteSquare, UiBlackSquare)
 
         for i in range(8):
             for j in range(8):
                 square = squares[(j + i) % 2]
-                new_square = tk.Frame(
-                    board_frame,
-                    bg=square.bg_color,
-                    height=square.size,
-                    width=square.size)
-                self.ui_board.squares[i][7 - j] = new_square
+                x1 = i * square.size
+                y1 = j * square.size
+                x2 = x1 + square.size
+                y2 = y1 + square.size
 
-                new_square.place(
-                    x=board_frame.winfo_x() + square.size * i,
-                    y=board_frame.winfo_y() + square.size * (7 - j)
-                )
+                self.board_canvas.create_rectangle(
+                    x1, y1, x2, y2,
+                    fill=square.bg_color)
+
+    def draw_pieces(self):
+        self.board = Board()
+        self.images = [[''] * 8 for _ in range(8)]
+        canvas = self.board_canvas
+
+        for piece in self.board.pieces:
+            rank = piece.get_rank()
+            file = piece.get_file()
+
+            image = Image.open('images/' + piece.image).resize(
+                (const.squareSize, const.squareSize))
+
+            piece_image = ImageTk.PhotoImage(image)
+
+            self.images[rank][file] = piece_image
+
+            x = (1 + file) * const.squareSize
+            y = (8 - rank) * const.squareSize
+
+            canvas.create_image((x, y),
+                                anchor=tk.SE,
+                                image=piece_image
+                                )
 
 
 class UiBoard():
