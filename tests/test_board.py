@@ -4,6 +4,10 @@ from piece import (
     Piece, Pawn, Bishop, Knight,
     Rook, Queen, King)
 
+from PIL import Image, ImageTk
+from svglib.svglib import svg2rlg
+from reportlab.graphics import renderPDF, renderPM
+
 
 def test_board_has_8_files_and_8_ranks():
     board = Board()
@@ -48,3 +52,19 @@ def test_board_initializes_with_squares_holding_correct_pieces():
         file = piece.get_file()
         rank = piece.get_rank()
         assert board.squares[rank][file] == piece
+
+
+def test_board_initializes_pieces_with_correct_image_names():
+    board = Board()
+
+    for piece in board.pieces:
+        image_name = piece.color.lower()+"_"+type(piece).__name__.lower()+".png"
+        assert piece.image == image_name
+
+
+def test_board_initializes_pieces_with_accessible_image_files():
+    board = Board()
+
+    for piece in board.pieces:
+        png_path = "images/{}".format(piece.image)
+        img = Image.open(png_path)
