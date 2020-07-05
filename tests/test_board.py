@@ -1,6 +1,6 @@
 import pytest
-from chess.board import Board
-from chess.piece import (
+from board import Board
+from piece import (
     Piece, Pawn, Bishop, Knight,
     Rook, Queen, King)
 
