@@ -1,4 +1,4 @@
-from chess.piece import (
+from piece import (
     Piece, Pawn, Bishop, Knight,
     Rook, Queen, King)
 

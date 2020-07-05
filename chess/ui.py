@@ -1,6 +1,6 @@
 import tkinter as tk
-from chess.constants import UiConstants as const
-from chess.board import Board
+from constants import UiConstants as const
+from board import Board
 
 
 def _from_rgb(rgb):
@@ -30,12 +30,12 @@ class UserInterface():
         self.window.mainloop()
 
     def add_board(self):
-        ui_board = UiBoard()
+        self.ui_board = UiBoard()
         board_frame = tk.Frame(
             self.window,
-            bg=ui_board.bg_color,
-            height=ui_board.size,
-            width=ui_board.size,
+            bg=self.ui_board.bg_color,
+            height=self.ui_board.size,
+            width=self.ui_board.size
         )
         board_frame.place(
             x=const.windowSize * (1 - const.BOARD_PERCENT_OF_WINDOW) / 2,
@@ -43,7 +43,7 @@ class UserInterface():
         )
 
     def add_squares(self):
-        squares = (UiWhiteSquare, UiBlackSquare)
+        squares = (UiBlackSquare, UiWhiteSquare)
 
         board_frame = self.window.winfo_children()[1]
 
@@ -55,17 +55,12 @@ class UserInterface():
                     bg=square.bg_color,
                     height=square.size,
                     width=square.size)
+                self.ui_board.squares[i][7 - j] = new_square
+
                 new_square.place(
                     x=board_frame.winfo_x() + square.size * i,
-                    y=board_frame.winfo_y() + square.size * j
+                    y=board_frame.winfo_y() + square.size * (7 - j)
                 )
-
-        print(board_frame.winfo_children())
-
-    # def add_pieces(self):
-    #     board = Board()
-
-    #     for piece in board.pieces:
 
 
 class UiBoard():
@@ -73,7 +68,7 @@ class UiBoard():
     bg_color = _from_rgb((49, 46, 43))
     bd = 5
 
-    squares = [[] * 8 for _ in range(8)]
+    squares = [[""] * 8 for _ in range(8)]
 
 
 class UiSquare():
@@ -86,6 +81,3 @@ class UiBlackSquare(UiSquare):
 
 class UiWhiteSquare(UiSquare):
     bg_color = _from_rgb((220, 220, 197))
-
-
-ui = UserInterface()
