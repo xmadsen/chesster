@@ -2,6 +2,7 @@ import pytest
 from game import Game
 from board import Board
 from cli import CliRenderer
+from constants import PlayerConstants as pc
 
 
 @pytest.fixture
@@ -21,8 +22,14 @@ def test_game_starts_with_cli(game):
 
 
 def test_game_starts_with_two_players(game):
-    players = ['white_player', 'black_player']
+    assert len(game.players) == 2
 
-    for player in players:
-        assert hasattr(game, player)
-        assert isinstance(game.player, Player)
+
+def test_game_starts_with_black_player_and_white_player(game):
+    player_names = [pc.BLACK_PLAYER, pc.WHITE_PLAYER]
+    for player_name in player_names:
+        assert player_name in [player.name for player in game.players]
+
+
+def test_game_has_white_player_first(game):
+    assert game.players[0].name == pc.WHITE_PLAYER

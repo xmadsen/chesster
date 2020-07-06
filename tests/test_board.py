@@ -7,15 +7,19 @@ from piece import (
 from PIL import Image
 
 
-def test_board_has_8_files_and_8_ranks():
+@pytest.fixture
+def board():
     board = Board()
+    return board
+
+
+def test_board_has_8_files_and_8_ranks(board):
     assert len(board.squares) == 8
     for rank in board.squares:
         assert len(rank) == 8
 
 
-def test_board_initializes_with_correct_colors_and_locations():
-    board = Board()
+def test_board_initializes_with_correct_colors_and_locations(board):
     piece_location_dict = {
         'black': {Pawn: [(0, 6), (1, 6), (2, 6), (3, 6),
                          (4, 6), (5, 6), (6, 6), (7, 6)],
@@ -43,26 +47,20 @@ def test_board_initializes_with_correct_colors_and_locations():
                 assert location in color_piece_locations
 
 
-def test_board_initializes_with_squares_holding_correct_pieces():
-    board = Board()
-
+def test_board_initializes_with_squares_holding_correct_pieces(board):
     for piece in board.pieces:
         file = piece.get_file()
         rank = piece.get_rank()
         assert board.squares[rank][file] == piece
 
 
-def test_board_initializes_pieces_with_correct_image_names():
-    board = Board()
-
+def test_board_initializes_pieces_with_correct_image_names(board):
     for piece in board.pieces:
         image_name = piece.color.lower()+"_"+type(piece).__name__.lower()+".png"
         assert piece.image == image_name
 
 
-def test_board_initializes_pieces_with_accessible_image_files():
-    board = Board()
-
+def test_board_initializes_pieces_with_accessible_image_files(board):
     for piece in board.pieces:
         png_path = "images/{}".format(piece.image)
         img = Image.open(png_path)

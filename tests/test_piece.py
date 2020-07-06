@@ -5,30 +5,22 @@ from chess.piece import (
     Rook, Queen, King)
 
 
-def test_new_piece_starts_alive():
-    test_piece = Piece((0, 0), 'white')
-    assert test_piece.is_alive
+@pytest.fixture
+def generic_piece():
+    piece = Piece((randrange(8), randrange(8)), choice(['black', 'white']))
+    return piece
 
 
-def test_new_piece_has_provided_location():
-    location = (randrange(8), randrange(8))
-    color = choice(['black', 'white'])
-    test_piece = Piece(location, color)
-    assert test_piece.location == location
+def test_new_piece_starts_alive(generic_piece):
+    assert generic_piece.is_alive
 
 
-def test_get_file_returns_correct_value():
-    location = (randrange(8), randrange(8))
-    color = choice(['black', 'white'])
-    test_piece = Piece(location, color)
-    assert test_piece.get_file() == location[0]
+def test_get_file_returns_correct_value(generic_piece):
+    assert generic_piece.get_file() == generic_piece.location[0]
 
 
-def test_get_rank_returns_correct_value():
-    location = (randrange(8), randrange(8))
-    color = choice(['black', 'white'])
-    test_piece = Piece(location, color)
-    assert test_piece.get_rank() == location[1]
+def test_get_rank_returns_correct_value(generic_piece):
+    assert generic_piece.get_rank() == generic_piece.location[1]
 
 
 def test_piece_types_have_correct_point_values():
