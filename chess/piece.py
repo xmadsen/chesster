@@ -1,14 +1,20 @@
+from constants import PieceConstants as pc
+
+
 class Piece():
 
     location = ()
     color = None
     point_value = 0
+    is_selected = False
 
     def __init__(self, location, color):
         self.is_alive = True
         self.location = location
         self.color = color
-        self.image = self.color.lower() + "_" + type(self).__name__.lower() + ".png"
+        self.image = "{}_{}.png".format(
+            self.color.lower(),
+            type(self).__name__.lower())
 
     def get_file(self):
         return self.location[0]
@@ -17,7 +23,20 @@ class Piece():
         return self.location[1]
 
     def __str__(self):
-        return self.str_representation
+
+        if self.color == 'white':
+            fg_color = pc.WHITE_COLOR
+        else:
+            fg_color = pc.BLACK_COLOR
+        if self.is_selected:
+            inverse = "7;"
+        else:
+            inverse = ""
+
+        return "\033[1;{}{}m{}\033[0m".format(
+            inverse,
+            fg_color,
+            self.str_representation)
 
 
 class Pawn(Piece):
