@@ -39,8 +39,21 @@ class Board():
 
     def __str__(self):
         string = ""
-        for file in reversed(self.squares):
+        files = 'abcdefgh'
+        string += "  ┌─" + "──┬─" * 7 + "──┐\n"
+        for i, file in enumerate(reversed(self.squares)):
+            if i == 0:
+                string += str(8-i) + " "
+            if i != 0:
+                string += "  ├─" + "──┼─" * 7 + "──┤\n{} ".format(str(8-i))
+            string += "│"
             for piece in file:
-                string += str(piece)
+                if not piece:
+                    string += "   "
+                string += " " + str(piece) + " "
+                string += "│"
             string += "\n"
+
+        string += "  └─" + "──┴─" * 7 + "──┘\n"
+        string += "    {}".format('   '.join(files))
         return string
