@@ -4,9 +4,7 @@ from piece import (
     Piece, Pawn, Bishop, Knight,
     Rook, Queen, King)
 
-from PIL import Image, ImageTk
-from svglib.svglib import svg2rlg
-from reportlab.graphics import renderPDF, renderPM
+from PIL import Image
 
 
 def test_board_has_8_files_and_8_ranks():
