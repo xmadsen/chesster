@@ -37,7 +37,7 @@ def test_board_initializes_with_correct_colors_and_locations(board):
                   King: [(4, 0)]}
     }
 
-    for color, piece_locations in piece_location_dict.items():
+    for _, piece_locations in piece_location_dict.items():
         for piece_type, locations in piece_locations.items():
             color_piece_locations = [
                 piece.location for piece in
@@ -51,7 +51,7 @@ def test_board_initializes_with_squares_holding_correct_pieces(board):
     for piece in board.pieces:
         file = piece.get_file()
         rank = piece.get_rank()
-        assert board.squares[rank][file] == piece
+        assert board.squares[file][rank] == piece
 
 
 def test_board_initializes_pieces_with_correct_image_names(board):
