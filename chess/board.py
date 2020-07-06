@@ -5,11 +5,13 @@ from piece import (
 
 class Board():
 
+    string = ''
+
     def __init__(self):
         self.initialize_pieces()
 
     def initialize_pieces(self):
-        self.squares = [["-"] * 8 for _ in range(8)]
+        self.squares = [[" "] * 8 for _ in range(8)]
         self.pieces = []
         piece_location_dict = {
             'black': {Pawn: [(0, 6), (1, 6), (2, 6), (3, 6),
@@ -38,22 +40,37 @@ class Board():
                     self.squares[rank][file] = piece
 
     def __str__(self):
-        string = ""
-        files = 'abcdefgh'
-        string += "  ┌─" + "──┬─" * 7 + "──┐\n"
+        self.string = ''
         for i, file in enumerate(reversed(self.squares)):
             if i == 0:
-                string += str(8-i) + " "
+                self.draw_grid_top()
             if i != 0:
-                string += "  ├─" + "──┼─" * 7 + "──┤\n{} ".format(str(8-i))
-            string += "│"
+                self.draw_grid_middle()
+            self.draw_rank(i)
             for piece in file:
-                if not piece:
-                    string += "   "
-                string += " " + str(piece) + " "
-                string += "│"
-            string += "\n"
+                self.draw_piece(piece)
+            self.string += '\n'
 
-        string += "  └─" + "──┴─" * 7 + "──┘\n"
-        string += "    {}".format('   '.join(files))
-        return string
+        self.draw_grid_bottom()
+        self.draw_files()
+        return self.string
+
+    def draw_grid_top(self):
+        self.string += '  ┌─' + '──┬─' * 7 + '──┐\n'
+
+    def draw_grid_middle(self):
+        self.string += '  ├─' + '──┼─' * 7 + '──┤\n'
+
+    def draw_grid_bottom(self):
+        self.string += '  └─' + '──┴─' * 7 + '──┘\n'
+
+    def draw_files(self):
+        files = 'abcdefgh'
+        self.string += '    {}'.format('   '.join(files))
+
+    def draw_rank(self, i):
+        rank = str(8-i)
+        self.string += '{} │'.format(rank)
+
+    def draw_piece(self, piece):
+        self.string += ' {} │'.format(piece)
